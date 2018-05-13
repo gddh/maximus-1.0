@@ -108,7 +108,7 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
     
-        wit.message(text).then(({entities}) => {
+        wit.message(received_message.text).then(({entities}) => {
             //let's see what entities we have?
             console.log(entities)
             // Create the payload for a basic text message
