@@ -9,6 +9,25 @@ const
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
 
+let Wit = null;
+let log = null;
+try {
+    // if running from repo
+    Wit = require('../').Wit;
+    log = require('../').log;
+} catch (e) {
+    Wit = require('node-wit').Wit;
+    log = require('node-wit').log;
+}
+
+const WIT_TOKEN = process.env.WIT_TOKEN;
+
+// Setting up our bot
+const wit = new Wit({
+    accessToken: WIT_TOKEN,
+    logger: new log.Logger(log.INFO)
+});
+
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
@@ -89,17 +108,14 @@ function handleMessage(sender_psid, received_message) {
 
     // Check if the message contains text
     if (received_message.text) {
-        
-        //const greeting = firstEntity(received_message.nlp, 'greetings');
-        //if (greeting && greeting.confidence > 0.8) {
-        //    response = { "text": `Hi there!`}
-        //}
-        //else {
-            // Create the payload for a basic text message
-            response = {
-                "text": `You sent the message: "${received_message.text}". Now send me an image!`
-            }
-        //}
+    
+        wit.message(text).then(({entities}) => {
+        //let's see what entities we have?
+        console.log(entities)
+        // Create the payload for a basic text message
+        response = {
+            "text": `You sent the message: "${received_message.text}". Now send me an image!`
+        }
     } else if (received_message.attachments) {
         
         // Gets the URL of the message attachment
