@@ -130,6 +130,8 @@ function handleMessage(sender_psid, received_message) {
                     case 'pizza':
                         response = { "text": `Sure we will order pizza`}
                 }
+                console.log("response is: ");
+                console.log(response);
             }
         })
     } else if (received_message.attachments) {
