@@ -107,7 +107,6 @@ function processMessage(entities)
     //let's see what entities we have?
     console.log('After this');
     console.log(entities);
-    let p_response = { "text": `You sent the message: "${received_message.text}". Now send me an image!` }
     if (entities) {
         console.log('entity is not null');
         // get the intent of the first entity
@@ -129,11 +128,8 @@ function handleMessage(sender_psid, received_message) {
     let response;
 
     // Check if the message contains text
-    if (received_message.text) {
-    
-        response = processMessage(wit.message(received_message.text).then(({entities})));
-        console.log("response is: ");
-        console.log(response);
+    if (received_message.text) { 
+        let p_response = { "text": `You sent the message: "${received_message.text}". Now send me an image!` }
     } else if (received_message.attachments) {
         
         // Gets the URL of the message attachment
