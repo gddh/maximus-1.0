@@ -119,8 +119,10 @@ function handleMessage(sender_psid, received_message) {
                     "text": `You sent the message: "${received_message.text}". Now send me an image!`
                 }
             } else {
+                console.log('entity is not null');
                 // get the intent of the first entity
                 const intent = firstEntity(entities, 'intent');
+                console.log(intent.value);
                 if (!intent) {
                     console.log('Try something else... I got no intent :)');
                 }
