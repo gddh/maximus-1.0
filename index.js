@@ -102,6 +102,28 @@ function    firstEntity(entities, name) {
         entities[name] && entities[name][0];
 }
 
+function processMessage(entities)
+{
+    //let's see what entities we have?
+    console.log('After this');
+    console.log(entities);
+    let p_response = { "text": `You sent the message: "${received_message.text}". Now send me an image!` }
+    if (entities) {
+        console.log('entity is not null');
+        // get the intent of the first entity
+        const intent = firstEntity(entities, 'intent');
+        console.log(intent.value);
+        if (!intent) {
+            console.log('Try something else... I got no intent :)');
+        }
+        switch (intent.value) {
+            case 'pizza':
+                p_response = { "text": `Sure we will order pizza`}
+        }
+    }
+    return (p_response);
+}
+
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
     let response;
@@ -109,26 +131,7 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
     
-        response = wit.message(received_message.text).then(({entities}) => {
-            //let's see what entities we have?
-            console.log('After this');
-            console.log(entities);
-            let p_response = { "text": `You sent the message: "${received_message.text}". Now send me an image!` }
-            if (entities) {
-                console.log('entity is not null');
-                // get the intent of the first entity
-                const intent = firstEntity(entities, 'intent');
-                console.log(intent.value);
-                if (!intent) {
-                    console.log('Try something else... I got no intent :)');
-                }
-                switch (intent.value) {
-                    case 'pizza':
-                        p_response = { "text": `Sure we will order pizza`}
-                }
-            }
-            p_response;
-        })
+        response = processMessage(wit.message(received_message.text).then(({entities})));
         console.log("response is: ");
         console.log(response);
     } else if (received_message.attachments) {
