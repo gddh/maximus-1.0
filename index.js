@@ -99,7 +99,7 @@ app.get('/webhook', (req, res) => {
 
 function    firstEntity(entities, name) {
     return entities && entities[name] && Array.isArray(entities[name]) &&
-        entities[name] && entities.entities[name][0];
+        entities[name] && entities[name][0];
 }
 
 // Handles messages events
