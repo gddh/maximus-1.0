@@ -109,12 +109,13 @@ function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
     
         wit.message(text).then(({entities}) => {
-        //let's see what entities we have?
-        console.log(entities)
-        // Create the payload for a basic text message
-        response = {
-            "text": `You sent the message: "${received_message.text}". Now send me an image!`
-        }
+            //let's see what entities we have?
+            console.log(entities)
+            // Create the payload for a basic text message
+            response = {
+                "text": `You sent the message: "${received_message.text}". Now send me an image!`
+            }
+        })
     } else if (received_message.attachments) {
         
         // Gets the URL of the message attachment
