@@ -127,7 +127,7 @@ function handleMessage(sender_psid, received_message) {
                         p_response = { "text": `Sure we will order pizza`}
                 }
             }
-            return (p_response);
+            p_response;
         })
         console.log("response is: ");
         console.log(response);
