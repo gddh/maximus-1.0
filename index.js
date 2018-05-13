@@ -1,6 +1,7 @@
 'use strict';
  
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN; 
+const WIT_TOKEN = process.env.WIT_TOKEN;
 
 // Imports dependencies and set up http server
 const
@@ -19,8 +20,6 @@ try {
     Wit = require('node-wit').Wit;
     log = require('node-wit').log;
 }
-
-const WIT_TOKEN = process.env.WIT_TOKEN;
 
 // Setting up our bot
 const wit = new Wit({
