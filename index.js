@@ -109,13 +109,13 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
     
-        wit.message(received_message.text).then(({entities}) => {
+        response = wit.message(received_message.text).then(({entities}) => {
             //let's see what entities we have?
             console.log('After this');
             console.log(entities);
             if (entities == null) {
                 // Create the payload for a basic text message
-                response = {
+                p_response = {
                     "text": `You sent the message: "${received_message.text}". Now send me an image!`
                 }
             } else {
@@ -128,11 +128,12 @@ function handleMessage(sender_psid, received_message) {
                 }
                 switch (intent.value) {
                     case 'pizza':
-                        response = { "text": `Sure we will order pizza`}
+                        p_response = { "text": `Sure we will order pizza`}
                 }
                 console.log("response is: ");
-                console.log(response);
+                console.log(p_response);
             }
+            return (p_response);
         })
     } else if (received_message.attachments) {
         
