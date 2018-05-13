@@ -162,6 +162,7 @@ function handleMessage(sender_psid, received_message) {
     }
 
     // Sends the response message
+
     callSendAPI(sender_psid, response);
 }
 
@@ -179,6 +180,8 @@ function handlePostback(sender_psid, received_postback) {
         response = { "text": "Oops, try sending another image."}
     }
     // Send the message to acknowledge the postback
+    console.log("passing the following in:");
+    console.log(response);
     callSendAPI(sender_psid, response);
 }
 
