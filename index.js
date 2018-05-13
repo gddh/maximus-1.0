@@ -113,13 +113,23 @@ function handleMessage(sender_psid, received_message) {
             //let's see what entities we have?
             console.log('After this');
             console.log(entities);
-
-            // get the first entity the intent of the first entity
+            if (entities == null) {
+                // Create the payload for a basic text message
+                response = {
+                    "text": `You sent the message: "${received_message.text}". Now send me an image!`
+                }
+            } else {
+                // get the intent of the first entity
+                const intent = firstEntity(entities, 'intent');
+                if (!intent) {
+                    console.log('Try something else... I got no intent :)');
+                }
+                switch (intent.value) {
+                    case 'pizza':
+                        response = { "text": `Sure we will order pizza`}
+                }
+            }
         })
-        // Create the payload for a basic text message
-        response = {
-            "text": `You sent the message: "${received_message.text}". Now send me an image!`
-        }
     } else if (received_message.attachments) {
         
         // Gets the URL of the message attachment
