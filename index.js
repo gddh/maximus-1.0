@@ -97,8 +97,9 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-function    firstEntity(nlp, name) {
-    return nlp && nlp.entities && nlp.entitites[name] && nlp.entities[name][0];
+function    firstEntity(entities, name) {
+    return entities && entities[name] && Array.isArray(entities[name]) &&
+        entities[name] && entities.entities[name][0];
 }
 
 // Handles messages events
@@ -110,7 +111,10 @@ function handleMessage(sender_psid, received_message) {
     
         wit.message(received_message.text).then(({entities}) => {
             //let's see what entities we have?
-            console.log(entities) 
+            console.log('After this');
+            console.log(entities);
+
+            // get the first entity the intent of the first entity
         })
         // Create the payload for a basic text message
         response = {
