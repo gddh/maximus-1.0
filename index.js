@@ -126,11 +126,11 @@ function handleMessage(sender_psid, received_message) {
                     case 'pizza':
                         p_response = { "text": `Sure we will order pizza`}
                 }
-                console.log("response is: ");
-                console.log(p_response);
             }
             return (p_response);
         })
+        console.log("response is: ");
+        console.log(response);
     } else if (received_message.attachments) {
         
         // Gets the URL of the message attachment
