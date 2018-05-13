@@ -129,7 +129,7 @@ function handleMessage(sender_psid, received_message) {
 
     // Check if the message contains text
     if (received_message.text) { 
-        let response = { "text": `You sent the message: "${received_message.text}". Now send me an image!` }
+        response = { "text": `You sent the message: "${received_message.text}". Now send me an image!` }
     } else if (received_message.attachments) {
         
         // Gets the URL of the message attachment
@@ -162,7 +162,8 @@ function handleMessage(sender_psid, received_message) {
     }
 
     // Sends the response message
-
+    console.log("passing the following in:");
+    console.log(response);
     callSendAPI(sender_psid, response);
 }
 
@@ -179,9 +180,7 @@ function handlePostback(sender_psid, received_postback) {
     } else if (payload === 'no') {
         response = { "text": "Oops, try sending another image."}
     }
-    // Send the message to acknowledge the postback
-    console.log("passing the following in:");
-    console.log(response);
+    // Send the message to acknowledge the postback 
     callSendAPI(sender_psid, response);
 }
 
