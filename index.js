@@ -79,6 +79,10 @@ app.get('/webhook', (req, res) => {
   }
 });
 
+function    firstEntity(nlp, name) {
+    return nlp && nlp.entities && nlp.entitites[name] && nlp.entities[name][0];
+}
+
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
     let response;
@@ -86,9 +90,15 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
         
-        // Create the payload for a basic text message
-        response = {
-            "text": `You sent the message: "${received_message.text}". Now send me an image!`
+        const greeting = firstEntity(message.nlp, 'greetings');
+        if (greeting && greeting.confidence > 0.8) {
+            response = { "text": `Hi there!`}
+        }
+        else {
+            // Create the payload for a basic text message
+            response = {
+                "text": `You sent the message: "${received_message.text}". Now send me an image!`
+            }
         }
     } else if (received_message.attachments) {
         
