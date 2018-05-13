@@ -113,12 +113,8 @@ function handleMessage(sender_psid, received_message) {
             //let's see what entities we have?
             console.log('After this');
             console.log(entities);
-            if (entities == null) {
-                // Create the payload for a basic text message
-                p_response = {
-                    "text": `You sent the message: "${received_message.text}". Now send me an image!`
-                }
-            } else {
+            let p_response = { "text": `You sent the message: "${received_message.text}". Now send me an image!` }
+            if (entities) {
                 console.log('entity is not null');
                 // get the intent of the first entity
                 const intent = firstEntity(entities, 'intent');
