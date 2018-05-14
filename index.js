@@ -106,24 +106,26 @@ const firstEntity = (entities, entity) => {
 }
 
 const processEntities = (received_message) => {
-      wit.message(received_message.text).then(({entities}) => {
-      const intent = firstEntity(entities, 'intent');
-      const pizza = firstEntity(entities, 'pizza_type');
-      console.log("here:");
-      console.log(entities);
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-      console.log(pizza);
-      console.log(intent);
+        let response;
 
-      if (pizza)
-      {
+        wit.message(received_message.text).then(({entities}) => {
+        const intent = firstEntity(entities, 'intent');
+        const pizza = firstEntity(entities, 'pizza_type');
+        console.log("here:");
+        console.log(entities);
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        console.log(pizza);
+        console.log(intent);
+
+        if (pizza)
+        {
           response = {"text":  `Ok we will order your ${pizza.value} pizza`};
           callSendAPI(sender_psid, response);
-      } else {
+        } else {
           response = {"text":  `We have received your message: ${received_message.text}`};
           callSendAPI(sender_psid, response);
-      }
-  })
+        }
+    })
 }
 
 // Handles messages events
