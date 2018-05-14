@@ -1,7 +1,6 @@
 'use strict';
- 
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN; 
-const WIT_TOKEN = process.env.WIT_TOKEN;
+
+var Config = require('./config')
 
 // Imports dependencies and set up http server
 const
@@ -73,7 +72,6 @@ app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
   //let VERIFY_TOKEN = "<test>"
-  const VERIFY_TOKEN = "<test>";
     
   // Parse the query params
   let mode = req.query['hub.mode'];
@@ -84,7 +82,7 @@ app.get('/webhook', (req, res) => {
   if (mode && token) {
   
     // Checks the mode and token sent is correct
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+    if (mode === 'subscribe' && token === Config.VERIFY_TOKEN) {
       
       // Responds with the challenge token from the request
       console.log('WEBHOOK_VERIFIED');
@@ -196,7 +194,7 @@ function callSendAPI(sender_psid, response) {
     // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "qs": { "access_token": Config.PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
