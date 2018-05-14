@@ -108,7 +108,7 @@ const firstEntity = (entities, entity) => {
 const processEntities = (sender_psid, received_message) => {
         let response;
 
-        wit.message(received_message.text).then(({entities}) => {
+        return wit.message(received_message.text).then(({entities}) => {
         const intent = firstEntity(entities, 'intent');
         const pizza = firstEntity(entities, 'pizza_type');
         console.log("here:");
