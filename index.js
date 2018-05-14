@@ -132,7 +132,7 @@ const processEntities = (sender_psid, received_message) => {
 const processAttachments = (sender_psid, received_message) => {
         // Gets the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
-        response = {
+        let response = {
             "attachment": {
                 "type": "template",
                 "payload": {
