@@ -2,19 +2,12 @@
 
 var Config = require('../config');
 
-let Wit = null;
-    let log = null;
-    try {
-        // if running from repo
-        Wit = require('../').Wit;
-        log = require('../').log;
-    } catch (e) {
-        Wit = require('node-wit').Wit;
-        log = require('node-wit').log;
-    }
-
 // Setting up our bot
 var getWit = function() { 
+    let Wit = null;
+    let log = null;
+    Wit = require('node-wit').Wit;
+    log = require('node-wit').log;
     console.log('GRABBING WIT');
     return new Wit(
             {accessToken: Config.WIT_TOKEN,
