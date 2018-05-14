@@ -118,7 +118,7 @@ function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         wit.message(received_message.text).then(({entities}) => {
             console.log(entities)
-            callSendAPI(sender_psid, `We have received your message: ${text}.`);
+            callSendAPI(sender_psid, `We have received your message: ${received_message.text}.`);
         })
     } else if (received_message.attachments) {
         // Gets the URL of the message attachment
