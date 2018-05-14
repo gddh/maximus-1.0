@@ -118,7 +118,8 @@ function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         wit.message(received_message.text).then(({entities}) => {
             console.log(entities)
-            callSendAPI(sender_psid, `We have received your message: ${received_message.text}.`);
+            response = {"text":  `We have received your message: ${received_message.text}`};
+            callSendAPI(sender_psid, response);
         })
     } else if (received_message.attachments) {
         // Gets the URL of the message attachment
@@ -148,12 +149,8 @@ function handleMessage(sender_psid, received_message) {
                 }
             }
         }
+        callSendAPI(sender_psid, response);
     }
-
-    // Sends the response message
-    console.log("passing the following in:");
-    console.log(response);
-    callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
