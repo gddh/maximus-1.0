@@ -100,6 +100,7 @@ app.get('/webhook', (req, res) => {
 const firstEntityValue = (entities, entity) => {
     const val = entities && entities[entity] && Array.isArray(entities[entity]) &&
         entities[entity].length > 0 && entities[entity][0].value;
+    console.log("in first entity value");
     if (!val) {
         return null;
     }
@@ -116,7 +117,7 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
         console.log("wit.message:");
-        console.log(wit.message(received_message.text));
+        console.log(wit.message(received_message.text).then(processEntities(value)));
         response = { "text": `You sent the message: "${received_message.text}". Now send me an image!` }
     } else if (received_message.attachments) {
         // Gets the URL of the message attachment
