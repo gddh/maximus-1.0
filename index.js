@@ -97,41 +97,27 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-function    firstEntity(entities, name) {
-    return entities && entities[name] && Array.isArray(entities[name]) &&
-        entities[name] && entities[name][0];
-}
-
-function processMessage(entities)
-{
-    //let's see what entities we have?
-    console.log('After this');
-    console.log(entities);
-    if (entities) {
-        console.log('entity is not null');
-        // get the intent of the first entity
-        const intent = firstEntity(entities, 'intent');
-        console.log(intent.value);
-        if (!intent) {
-            console.log('Try something else... I got no intent :)');
-        }
-        switch (intent.value) {
-            case 'pizza':
-                p_response = { "text": `Sure we will order pizza`}
-        }
+const firstEntityValue = (entities, entity) => {
+    const val = entities && entities[entity] && Array.isArray(entities[entity]) &&
+        entities[entity].length > 0 && entities[entity][0].value;
+    if (!val) {
+        return null;
     }
-    return (p_response);
+    return typeof val === 'object' ? val.value : val;
 }
 
+const processEntities = ({entities}) => {
+    const firstEntity = firstEntityValue(entities);
+}
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
     let response;
 
     // Check if the message contains text
-    if (received_message.text) { 
+    if (received_message.text) {
+        console.log(queryWit(received_message);
         response = { "text": `You sent the message: "${received_message.text}". Now send me an image!` }
     } else if (received_message.attachments) {
-        
         // Gets the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
         response = {
