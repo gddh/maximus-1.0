@@ -109,24 +109,24 @@ const processEntities = (sender_psid, received_message) => {
         let response;
 
         return wit.message(received_message.text).then(({entities}) => {
-        const intent = firstEntity(entities, 'intent');
-        const pizza = firstEntity(entities, 'pizza_type');
-        console.log("here:");
-        console.log(entities);
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        console.log(pizza);
-        console.log(intent);
+            const intent = firstEntity(entities, 'intent');
+            const pizza = firstEntity(entities, 'pizza_type');
+            console.log("here:");
+            console.log(entities);
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            console.log(pizza);
+            console.log(intent);
 
-        if (pizza)
-        {
-          response = {"text":  `Ok we will order your ${pizza.value} pizza`};
-        } else {
-          response = {"text":  `We have received your message: ${received_message.text}`};
-        }
-        console.log("returning ");
-        console.log(response);
-        return response;
-    })
+            if (pizza)
+            {
+              response = {"text":  `Ok we will order your ${pizza.value} pizza`};
+            } else {
+              response = {"text":  `We have received your message: ${received_message.text}`};
+            }
+            console.log("returning ");
+            console.log(response);
+            callSendAPI(sender_psid, response);
+        })
 }
 
 // Handles messages events
@@ -166,8 +166,8 @@ function handleMessage(sender_psid, received_message) {
                 }
             }
         }
+        callSendAPI(sender_psid, response);
     }
-    callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
