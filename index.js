@@ -99,7 +99,7 @@ app.get('/webhook', (req, res) => {
 
 const firstEntityValue = (entities, entity) => {
     const val = entities && entities[entity] && Array.isArray(entities[entity]) &&
-        entities[entity].length > 0 && entities[entity][0].value;
+        entities[entity].length > 0 && entities[entity][0];
     console.log("in first entity value");
     if (!val) {
         return null;
@@ -121,7 +121,7 @@ function handleMessage(sender_psid, received_message) {
             const pizza = firstEntityValue(entities, 'pizza_type');
             if (pizza)
             {
-                response = {"text":  `Ok we will order your ${pizza} pizza`};
+                response = {"text":  `Ok we will order your ${pizza.value} pizza`};
                 callSendAPI(sender_psid, response);
             } else {
                 response = {"text":  `We have received your message: ${received_message.text}`};
