@@ -105,7 +105,7 @@ const firstEntity = (entities, entity) => {
     return val;
 }
 
-const processEntities = (received_message) => {
+const processEntities = (sender_psid, received_message) => {
         let response;
 
         wit.message(received_message.text).then(({entities}) => {
@@ -134,7 +134,7 @@ function handleMessage(sender_psid, received_message) {
 
     // Check if the message contains text
     if (received_message.text) {
-      processEntities(received_message);
+      processEntities(sender_psid, received_message);
     } else if (received_message.attachments) {
         // Gets the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
