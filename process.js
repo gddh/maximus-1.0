@@ -1,5 +1,7 @@
 'use strict';
 
+var wit = require('./services/wit').getWit();
+
 const firstEntity = (entities, entity) => {
     const val = entities && entities[entity] && Array.isArray(entities[entity]) &&
         entities[entity].length > 0 && entities[entity][0];

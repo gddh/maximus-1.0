@@ -10,22 +10,13 @@ const
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
 
-let Wit = null;
 let log = null;
 try {
     // if running from repo
-    Wit = require('../').Wit;
     log = require('../').log;
 } catch (e) {
-    Wit = require('node-wit').Wit;
     log = require('node-wit').log;
 }
-
-// Setting up our bot
-const wit = new Wit({
-    accessToken: Config.WIT_TOKEN,
-    logger: new log.Logger(log.INFO)
-});
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
