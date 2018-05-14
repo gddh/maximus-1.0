@@ -116,9 +116,10 @@ function handleMessage(sender_psid, received_message) {
 
     // Check if the message contains text
     if (received_message.text) {
-        console.log("wit.message:");
-        console.log(wit.message(received_message.text).then(processEntities({entities})));
-        response = { "text": `You sent the message: "${received_message.text}". Now send me an image!` }
+        wit.message(received_message.text).then(({entities}) => {
+            console.log(entities)
+            callSendAPI(sender_psid, `We have received your message: ${text}.`);
+        })
     } else if (received_message.attachments) {
         // Gets the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
