@@ -124,8 +124,6 @@ function handleMessage(sender_psid, received_message) {
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             console.log(pizza);
             console.log(intent);
-            console.log(entities['intent'][0]);
-            console.log(entities['intent'][0].value);
 
             if (pizza)
             {
