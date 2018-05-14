@@ -1,7 +1,8 @@
 'use strict';
 
-var Config = require('./config')
-var Process = require('./process')
+var Config = require('./config');
+var Process = require('./process');
+var Handler = require('./handler');
 
 // Imports dependencies and set up http server
 const
@@ -107,29 +108,4 @@ function handlePostback(sender_psid, received_postback) {
     }
     // Send the message to acknowledge the postback 
     callSendAPI(sender_psid, response);
-}
-
-// Sends response messages via the SEND API
-function callSendAPI(sender_psid, response) {
-    // Construct the message body
-    let request_body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "message": response
-    }
-
-    // Send the HTTP request to the Messenger Platform
-    request({
-        "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": Config.PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
 }

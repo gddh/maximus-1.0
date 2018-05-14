@@ -1,6 +1,7 @@
 'use strict';
 
 var wit = require('./services/wit').getWit();
+var Handler = require('./handler');
 
 const firstEntity = (entities, entity) => {
     const val = entities && entities[entity] && Array.isArray(entities[entity]) &&
@@ -24,7 +25,7 @@ const processText = (sender_psid, received_message) => {
             } else {
               response = {"text":  `We have received your message: ${received_message.text}`};
             }
-            callSendAPI(sender_psid, response);
+            Handler.callSendAPI(sender_psid, response);
         })
 }
 
@@ -56,7 +57,7 @@ const processAttachments = (sender_psid, received_message) => {
                 }
             }
         }
-        callSendAPI(sender_psid, response);
+        Handler.callSendAPI(sender_psid, response);
 }
 
 module.exports = {
