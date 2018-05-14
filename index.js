@@ -119,6 +119,7 @@ function handleMessage(sender_psid, received_message) {
         wit.message(received_message.text).then(({entities}) => {
             const intent = firstEntityValue(entities, 'intent');
             const pizza = firstEntityValue(entities, 'pizza_type');
+            console.log(pizza);
             if (pizza)
             {
                 response = {"text":  `Ok we will order your ${pizza.value} pizza`};
