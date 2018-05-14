@@ -119,10 +119,13 @@ function handleMessage(sender_psid, received_message) {
         wit.message(received_message.text).then(({entities}) => {
             console.log("entity is:");
             console.log(entities);
+            const intent = firstEntityValue(entities, 'intent');
+            console.log("intent is:");
+            console.log(intent);
             const pizza = firstEntityValue(entities, 'pizza_type');
             if (pizza)
             {
-                response = {"text":  `Ok we will order your pizza`};
+                response = {"text":  `Ok we will order your ${pizza.value}`};
                 callSendAPI(sender_psid, response);
             } else {
                 response = {"text":  `We have received your message: ${received_message.text}`};
