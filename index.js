@@ -121,7 +121,8 @@ function handleMessage(sender_psid, received_message) {
             const pizza = firstEntityValue(entities, 'pizza_type');
             console.log("here:");
             console.log(entities);
-            console.log(entities['intent']);
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            console.log(entities['intent'].confidence);
             if (pizza)
             {
                 response = {"text":  `Ok we will order your ${pizza.value} pizza`};
