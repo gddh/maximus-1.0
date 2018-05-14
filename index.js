@@ -97,14 +97,14 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-const firstEntityValue = (entities, entity) => {
+const firstEntity = (entities, entity) => {
     const val = entities && entities[entity] && Array.isArray(entities[entity]) &&
         entities[entity].length > 0 && entities[entity][0];
     console.log("in first entity value");
     if (!val) {
         return null;
     }
-    return typeof val === 'object' ? val.value : val;
+    return val;
 }
 
 const processEntities = ({entities}) => {
