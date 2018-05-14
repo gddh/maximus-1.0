@@ -120,11 +120,10 @@ const processEntities = (sender_psid, received_message) => {
         if (pizza)
         {
           response = {"text":  `Ok we will order your ${pizza.value} pizza`};
-          callSendAPI(sender_psid, response);
         } else {
           response = {"text":  `We have received your message: ${received_message.text}`};
-          callSendAPI(sender_psid, response);
         }
+        return response;
     })
 }
 
@@ -134,7 +133,7 @@ function handleMessage(sender_psid, received_message) {
 
     // Check if the message contains text
     if (received_message.text) {
-      processEntities(sender_psid, received_message);
+      response = processEntities(sender_psid, received_message);
     } else if (received_message.attachments) {
         // Gets the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
@@ -163,8 +162,8 @@ function handleMessage(sender_psid, received_message) {
                 }
             }
         }
-        callSendAPI(sender_psid, response);
     }
+    callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
