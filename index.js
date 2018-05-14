@@ -1,6 +1,7 @@
 'use strict';
 
 var Config = require('./config')
+var Process = require('./process')
 
 // Imports dependencies and set up http server
 const
@@ -101,11 +102,9 @@ function handleMessage(sender_psid, received_message) {
 
     // Check if the message contains text
     if (received_message.text) {
-      response = processEntities(sender_psid, received_message);
-      console.log("response is ");
-      console.log(response);
+      Process.processText(sender_psid, received_message);
     } else if (received_message.attachments) {
-      processAttachments(sender_psid, received_message);
+      Process.processAttachments(sender_psid, received_message);
     }
 }
 
