@@ -117,15 +117,11 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
         wit.message(received_message.text).then(({entities}) => {
-            console.log("entity is:");
-            console.log(entities);
             const intent = firstEntityValue(entities, 'intent');
-            console.log("intent is:");
-            console.log(intent);
             const pizza = firstEntityValue(entities, 'pizza_type');
             if (pizza)
             {
-                response = {"text":  `Ok we will order your ${pizza.value}`};
+                response = {"text":  `Ok we will order your ${pizza}`};
                 callSendAPI(sender_psid, response);
             } else {
                 response = {"text":  `We have received your message: ${received_message.text}`};
