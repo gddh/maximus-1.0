@@ -122,7 +122,7 @@ function handleMessage(sender_psid, received_message) {
             console.log("here:");
             console.log(entities);
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            console.log(entities['intent'].confidence);
+            console.log(entities['intent'].value);
             if (pizza)
             {
                 response = {"text":  `Ok we will order your ${pizza.value} pizza`};
