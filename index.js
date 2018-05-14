@@ -22,7 +22,7 @@ try {
 
 // Setting up our bot
 const wit = new Wit({
-    accessToken: WIT_TOKEN,
+    accessToken: Config.WIT_TOKEN,
     logger: new log.Logger(log.INFO)
 });
 
