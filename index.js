@@ -117,6 +117,8 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
         wit.message(received_message.text).then(({entities}) => {
+            console.log("entity is:");
+            console.log(entities);
             const pizza = firstEntityValue(entities, 'pizza_type');
             if (pizza)
             {
