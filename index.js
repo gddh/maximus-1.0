@@ -117,9 +117,15 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
         wit.message(received_message.text).then(({entities}) => {
-            console.log(entities)
-            response = {"text":  `We have received your message: ${received_message.text}`};
-            callSendAPI(sender_psid, response);
+            const pizza = firstEntityValue(entities, 'pizza_type');
+            if (pizza)
+            {
+                response = {"text":  `Ok we will order your pizza`};
+                callSendAPI(sender_psid, response);
+            } else {
+                response = {"text":  `We have received your message: ${received_message.text}`};
+                callSendAPI(sender_psid, response);
+            }
         })
     } else if (received_message.attachments) {
         // Gets the URL of the message attachment
