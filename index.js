@@ -123,6 +123,8 @@ const processEntities = (sender_psid, received_message) => {
         } else {
           response = {"text":  `We have received your message: ${received_message.text}`};
         }
+        console.log("returning ");
+        console.log(response);
         return response;
     })
 }
@@ -134,6 +136,8 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
       response = processEntities(sender_psid, received_message);
+      console.log("response is ");
+      console.log(response);
     } else if (received_message.attachments) {
         // Gets the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
