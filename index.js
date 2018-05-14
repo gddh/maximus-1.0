@@ -129,16 +129,7 @@ const processEntities = (sender_psid, received_message) => {
         })
 }
 
-// Handles messages events
-function handleMessage(sender_psid, received_message) {
-    let response;
-
-    // Check if the message contains text
-    if (received_message.text) {
-      response = processEntities(sender_psid, received_message);
-      console.log("response is ");
-      console.log(response);
-    } else if (received_message.attachments) {
+const processAttachments = (sender_psid, received_message) => {
         // Gets the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
         response = {
@@ -167,6 +158,19 @@ function handleMessage(sender_psid, received_message) {
             }
         }
         callSendAPI(sender_psid, response);
+}
+
+// Handles messages events
+function handleMessage(sender_psid, received_message) {
+    let response;
+
+    // Check if the message contains text
+    if (received_message.text) {
+      response = processEntities(sender_psid, received_message);
+      console.log("response is ");
+      console.log(response);
+    } else if (received_message.attachments) {
+      processAttachments(sender_psid, received_message);
     }
 }
 
