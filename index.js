@@ -121,7 +121,7 @@ function handleMessage(sender_psid, received_message) {
             const pizza = firstEntityValue(entities, 'pizza_type');
             if (pizza)
             {
-                response = {"text":  `Ok we will order your ${pizza}`};
+                response = {"text":  `Ok we will order your ${pizza} pizza`};
                 callSendAPI(sender_psid, response);
             } else {
                 response = {"text":  `We have received your message: ${received_message.text}`};
