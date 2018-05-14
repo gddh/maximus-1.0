@@ -107,5 +107,5 @@ function handlePostback(sender_psid, received_postback) {
         response = { "text": "Oops, try sending another image."}
     }
     // Send the message to acknowledge the postback 
-    callSendAPI(sender_psid, response);
+    Handler.callSendAPI(sender_psid, response);
 }
