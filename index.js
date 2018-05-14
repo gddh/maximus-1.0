@@ -99,7 +99,7 @@ app.get('/webhook', (req, res) => {
 
 const firstEntityValue = (entities, entity) => {
     const val = entities && entities[entity] && Array.isArray(entities[entity]) &&
-        entities[entity].length > 0 && entities[entity][0];
+        entities[entity].length > 0 && entities[entity];
     console.log("in first entity value");
     if (!val) {
         return null;
