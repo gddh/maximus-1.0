@@ -26,22 +26,31 @@ app.post('/webhook', (req, res) => {
     // Iterates over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
 
-      // Gets the message. entry.messaging is an array, but 
-      // will only ever contain one message, so we get index 0
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+        // Gets the message. entry.messaging is an array, but 
+        // will only ever contain one message, so we get index 0
+        let webhook_event = entry.messaging[0];
+        //console.log('webhook_eventVVVVVVVVVVVVVVVVVVVVVVVVVV');
+        //console.log(webhook_event);
+        //console.log('webhook_event VVVVVVVVVVVV VVVVVVVVV');
+        //console.log('timestamp: ' + webhook_event.timestamp);
+        //let timestamp = webhook_event.timestamp;
+        //let date = new Date(timestamp);
+        //let hours = date.getHours();
+        //let min = "0" + date.getMinutes();
+        //let sec = "0" + date.getSeconds();
+        //let formatted = hours + ':' + min.substr(-2) + ':' + sec.substr(-2);
+        //console.log('Time: ' + formatted);
+        // Get the sender PSID
+        let sender_psid = webhook_event.sender.id;
+        //console.log('Sender PSID: ' + sender_psid);
 
-      // Get the sender PSID
-      let sender_psid = webhook_event.sender.id;
-      console.log('Sender PSID: ' + sender_psid);
-
-      // Check if the event is a message or postback and
-      // pass the event to the appropriate handler function
-      if (webhook_event.message) {
-        handleMessage(sender_psid, webhook_event.message);
-      } else if (webhook_event.postback) {
-        handlePostback(sender_psid, webhook_event.postback);
-      }
+        // Check if the event is a message or postback and
+        // pass the event to the appropriate handler function
+        if (webhook_event.message) {
+            handleMessage(sender_psid, webhook_event.message);
+        } else if (webhook_event.postback) {
+            handlePostback(sender_psid, webhook_event.postback);
+        }
     });
 
     // Returns a '200 OK' response to all requests
@@ -83,13 +92,13 @@ app.get('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-    let response;
-
     // Check if the message contains text
     if (received_message.text) {
-      Process.processText(sender_psid, received_message);
+        console.log(`Message is :`);
+        console.log(received_message);
+        Process.processText(sender_psid, received_message);
     } else if (received_message.attachments) {
-      Process.processAttachments(sender_psid, received_message);
+        Process.processAttachments(sender_psid, received_message);
     }
 }
 
