@@ -1,0 +1,8 @@
+torchmoji/global_variables.py
+torchmoji/model_def.py
+torchmoji/sentence_tokenizer.py
+torchmoji.egg-info/PKG-INFO
+torchmoji.egg-info/SOURCES.txt
+torchmoji.egg-info/dependency_links.txt
+torchmoji.egg-info/requires.txt
+torchmoji.egg-info/top_level.txt
