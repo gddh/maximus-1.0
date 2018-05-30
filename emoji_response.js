@@ -1,32 +1,18 @@
-
 function runIt(py) {
     return new Promise(function(resolve, reject) {
-        console.log('in the promise');
         var dataString = '';
         py.stdout.on('data', function(data) {
-            console.log(`getting data: ${data}`)
             dataString += data.toString();
         });
         py.stdout.on('close', function() {
             if (dataString) {
-                console.log("RESOLVING....");
                 resolve(dataString);
             } else {
-                console.log("rejecting..");
                 reject(dataString);
             }
         });
     });
 }
-
-
-// TEST_SENTENCES = [u'I love mom\'s cooking',
-//                   u'I love how you never reply back..',
-//                   u'I love cruising with my homies',
-//                   u'I love messing with yo mind!!',
-//                   u'I love you and now you\'re just gone..',
-//                   u'This is shit',
-//                   u'This is the shit']
 
 const emojiReply = (data) => {
     var emoji_dict = {0 : 0x1F602, 1 : 0x1F612, 2 : 0x1F629, 3 : 0x1F62D, 4 : 0x1F60D, 5 : 0x1F61E,
@@ -40,38 +26,23 @@ const emojiReply = (data) => {
                         48: 0x1F3A7, 49: 0x1F64A, 50: 0x1F609, 51: 0x1F480, 52: 0x1F616, 53: 0x1F604,
                         54: 0x1F61C, 55: 0x1F620, 56: 0x1F645, 57: 0x1F4AA, 58: 0x1F44A, 59: 0x1F49C,
                         60: 0x1F496, 61: 0x1F499, 62: 0x1F62C, 63: 0x2728};
-//    console.log(`IN EMOJI: DATA: ${data}`);
-    let response;
+    let emoji_response;
+    let word_response;
     var spawn = require('child_process').spawn;
-    var py = spawn('python', ['score_texts_emojis.py']).on('error', function(){ console.log('failed to spawn')});
-    console.log(`json ${JSON.stringify(data)}`)
+    var py = spawn('python', ['emoji/response/score_texts_emojis.py']).on('error', function(){ console.log('failed to spawn')});
     py.stdin.write(JSON.stringify(data));
     py.stdin.end();
     return runIt(py).then(function(dataString) { 
-        console.log(`dataString: ${typeof dataString}`);
         let data_obj = JSON.parse(dataString);
         let i;
-        response = 'I think I know how you feel. Let me try to express it:';
-        for (i = 0; i < 5; i ++) {
-            response += String.fromCodePoint(emoji_dict[data_obj[i + 1]]);
+        emoji_response = '';
+        let emoji_num = Math.floor(Math.random() * 6)
+        for (i = 0; i < emoji_num; i ++) {
+            emoji_response += String.fromCodePoint(emoji_dict[data_obj[i + 1]]);
         }
-        console.log(response);
-        return response;
-    }, function(err) {
-        console.log(`err: ${err}`);
+        return {"text": emoji_response};
     });
 }
-
-const main = () => {
-    var str = 'I want to sleep.'
-    let data1 = [str]
-    var result = emojiReply(data1).then(function(val){
-        console.log('RESULT:',val)
-        return (val);
-    });
-}
-
-console.log('what is this:', main())
 
 module.exports = {
     emojiReply : emojiReply

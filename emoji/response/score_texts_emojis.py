@@ -36,8 +36,9 @@ def read_in():
     return json.loads(lines[0])
 
 TEST_SENTENCES = read_in()
+#TEST_SENTENCES = ['I love how you never reply back..']
 
-#print('test sentences are' + TEST_SENTENCES)
+#print('test sentences are', type(TEST_SENTENCES[0]))
 
 def top_elements(array, k):
     ind = np.argpartition(array, -k)[-k:]
@@ -64,7 +65,7 @@ for prob in [prob]:
     scores = []
     for i, t in enumerate(TEST_SENTENCES):
         t_tokens = tokenized[i]
-        t_score = [t]
+        t_score = []
         t_prob = prob[i]
         ind_top = top_elements(t_prob, 5)
         t_score.append(sum(t_prob[ind_top]))

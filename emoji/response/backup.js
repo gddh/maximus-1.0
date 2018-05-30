@@ -11,7 +11,7 @@
                     54: 0x1F61C, 55: 0x1F620, 56: 0x1F645, 57: 0x1F4AA, 58: 0x1F44A, 59: 0x1F49C,
                     60: 0x1F496, 61: 0x1F499, 62: 0x1F62C, 63: 0x2728};
 
-  data = ['I love mom\'s cooking.']
+  data = ['I want to sleep.']
 
   console.log(`IN EMOJI: DATA: ${data}`);
    

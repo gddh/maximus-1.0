@@ -1,3 +1,5 @@
+var Lib = require('./library_response');
+
 const createQReply = (text, payload) => {
     if (payload)
     {
@@ -24,34 +26,85 @@ const createQReply = (text, payload) => {
     ]};
 }
 
-const getResponse = (sequence, name, duration) => {
-    let run_responses = [`${name}! It is time to run! Can we do it?`,
-                         `${name}! Running time!! Are you ready?`,
-                         `${name}, guess what time it is? Time to run!!! Are we going to run?`,
-                         `Fire up your engines, ${name}! It is time to run! Are you ready??`,
-                         `Hey ${name}, I just wanted to remind you that it is time to run! Can we do it?`,
-                         `${name}, can we go for a run right now?`];
-    let sleep_responses = [ `${name}! It is time to go to sleep! Can we go to sleep?`,
-                            `It is time for us to sleep. Is that ok ${name}?`,
-                            `Can we sleep ${name}? Please?`,
-                            `We should sleep so we can get up tomorrow at the right time... Can we sleep ${name}?`,
-                            `We gotta go to sleep to wake up tomorrow ${name}. Can we sleep ${name}?`];
+const dynamicQReply = (text, possible_payloads, flag) => {
+    let q_replies = []
+    Object.keys(possible_payloads).forEach( payload => {
+        if (possible_payloads[payload] == 'uncompleted') {
+            q_replies.push({
+                "content_type":"text",
+                "title": payload,
+                "payload": flag + payload
+            });
+        }
+    });
+    return {"text": text,
+            "quick_replies": q_replies};
+}
 
-    let workout_responses = [`${name}, It is time for us to workout! Are we ready to push ourselves?`,
-                            `Workout time ${name}!! Are we doing this?`,
-                            `Hey ${name}! Hey! ${name}! It is time to workout. We ready?`,
-                            `${name}! It is time to workout! Are we ready?`,
-                            `Let us get started on workout ${name}! Are we good to go?`];
+const dynamicTask = (text, lst) => {
+    let str = text + "\n";
+    let has_completed = 0;
+    Object.keys(lst).forEach( task => {
+        if (lst[task] == 'completed') {
+            str += String.fromCodePoint(0x2705) + " " + task + "\n" ;
+            has_completed = 1;
+        }
+    });
+    if (has_completed == 1)
+        str += "\n";
+    Object.keys(lst).forEach( task => {
+        if (lst[task] == 'uncompleted') {
+            str += "- "+ task + "\n"
+        }
+    });
+    return {"text": str};
+}
 
-    let i = Math.floor(Math.random()*run_responses.length);
+const dynamicReminder = (text, lst) => {
+    let str = text + "\n";
+    Object.keys(lst).forEach( reminder => {
+        str += "- " + reminder + "\n";
+    });
+    return {"text": str};
+}
 
+const getResponse = (sequence, name, payloads) => {
+    console.log('Sequence is ', sequence);
+    let responses = Lib.responseLibrary(sequence, name);
+    console.log('responses is ', responses);
+    let i = Math.floor(Math.random() * responses.length);
     switch (sequence) {
         case 'to sleep':
-            return createQReply(sleep_responses[i], duration);
         case 'to workout':
-            return createQReply(workout_responses[i], duration);
         case 'to run':
-            return createQReply(run_responses[i], duration);
+            return createQReply(responses[i], payloads);
+        case 'emoji':
+            return responses[i];
+        case 'clear task1':
+            return {"text": responses[i]}; 
+        case 'completed task1':
+            console.log("returning the following response: ", responses[i]);
+            return {"text": responses[i]}; 
+        case 'clear task':
+            if (Object.keys(payloads).length > 0)
+                return dynamicQReply(responses[i], payloads, "0");
+            else
+                return {"text": "There are no tasks for you to clear."};
+        case 'completed task':
+            if (Object.keys(payloads).length > 0)
+                return dynamicQReply(responses[i] + ' Which one was it?', payloads, "1");
+            else
+                return {"text": "There are no tasks for you to complete! But congratulations!!!"}
+        case 'view task':
+            if (Object.keys(payloads).length > 0)
+                return dynamicTask(responses[i], payloads);
+            else
+                return {"text": "No tasks to view! If you would like to set a task, just tell me!"};
+        case 'view reminder':
+            if (Object.keys(payloads).length > 0)
+                return dynamicReminder(responses[i], payloads);
+            else
+                return {"text": "No reminders to view! If you would like to set a reminder, let me know!"};
         default:
             return {"text": `${name}! I am supposed to remind you of something, but I forgot...`};
     }

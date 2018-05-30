@@ -1,8 +1,10 @@
 'use strict';
 
-var Config = require('./config');
-var Process = require('./process');
-var Handler = require('./handler');
+var Config      = require('./config');
+var Process     = require('./process');
+var Handler     = require('./handler');
+var Lib         = require('./library_response');
+var Response    = require('./response');
 
 // Imports dependencies and set up http server
 const
@@ -77,6 +79,7 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
+    console.log("IN INDEX: ", Process);
     if (received_message.text) {
         console.log(`Message is :`);
         console.log(received_message);
@@ -88,36 +91,38 @@ function handleMessage(sender_psid, received_message) {
 
 function handleQuickReply(sender_psid, received_message) {
     let payload = received_message.quick_reply.payload;
-    console.log(`payload is: ${payload}`);
-    console.log(`type is: ${typeof payload}`); 
     let response;
     if (payload === 'yes') {
         response = { "text": "Awesome! Let's do it."}
     } else if (payload === 'no') {
         response = { "text": "Oh no, what is wrong? Is there any way I can help?"}
+    } else if (Process.inIdToName(sender_psid, payload.substr(1))) {
+        let flag = payload[0];
+        payload = payload.substr(1);
+        if (flag == 1) {
+            Process.markAsCompleted(sender_psid, payload);
+            response = Response.getResponse('completed task1', Process.getName(sender_psid), 0);
+            console.log("response is: ", response);
+        } else if (flag == 0) {
+            Process.clearTask(sender_psid, payload);
+            response = {"text": "Understood. I have removed the task."};
+        }
     } else {
-        console.log("setting end of duration");
         let duration_response = {"text": "You've completed your challenge!!! Congrats!"};
         setTimeout(Handler.callSendAPI, parseInt(payload), sender_psid, duration_response);
     }
-    // Send the message to acknowledge the postback 
     Handler.callSendAPI(sender_psid, response);
 
 }
 
-// Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
     let response;
-
-    // Get the payload for the postback
     let payload = received_postback.payload;
 
-    //Set the response based on the postback payload
     if (payload === 'yes') {
         response = { "text": "Awesome! Let's do it."}
     } else if (payload === 'no') {
         response = { "text": "Oh no, what is wrong? Is there any way I can help?"}
     }
-    // Send the message to acknowledge the postback 
     Handler.callSendAPI(sender_psid, response);
 }

@@ -7,13 +7,14 @@ const
 // Sends response messages via the SEND API
 function callSendAPI(sender_psid, response) {
     // Construct the message body
+    console.log("in callSendAPI: ", response);
     let request_body = {
         "recipient": {
             "id": sender_psid
         },
         "message": response
     }
-
+    console.log("response", sender_psid);
     // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",

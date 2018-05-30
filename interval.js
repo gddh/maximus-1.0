@@ -14,7 +14,7 @@ const repeatInterval = (remind_keyword, sequence, time_interval, name, duration)
 }
 
 const calcInterval = (datetime) => {
-    let etime = new Date(datetime.value);
+    let etime = new Date(datetime);
     let e_hr = etime.getHours();
     let e_min = etime.getMinutes();
     let e_sec = etime.getSeconds(); 
@@ -26,7 +26,17 @@ const calcInterval = (datetime) => {
     return interval;
 }
 
+const timeSpent = (d) => {
+    let interval = calcInterval(d) * -1;
+    let total = interval / 1000;
+    let hr = Math.floor(total / 3600);
+    let min = Math.floor((total % 3600) / 60);
+    let sec = (total % 3600) % 60;
+    return "You've spent " + hr.toString() + " hours " + min.toString() + " minutes " + sec.toString() + " seconds"
+}
+
 module.exports = {
     calcInterval: calcInterval,
-    repeatInterval: repeatInterval
+    repeatInterval: repeatInterval,
+    timeSpent: timeSpent
 }
