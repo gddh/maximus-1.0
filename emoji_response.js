@@ -51,7 +51,7 @@ const emojiReply = (data) => {
     var spawn = require('child_process').spawn;
     var py = spawn('python', ['emoji/response/score_texts_emojis.py']).on('error', function(){ console.log('failed to spawn')});
     py.stdin.write(JSON.stringify(data));
-    console.log("wrote to the python script");
+    console.log("wrote to the python script, " JSON.stringify(data));
     py.stdin.end();
     return runIt(py).then(resolve, reject);
 }
