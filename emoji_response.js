@@ -29,7 +29,9 @@ const   resolve = (dataString) => {
                         54: 0x1F61C, 55: 0x1F620, 56: 0x1F645, 57: 0x1F4AA, 58: 0x1F44A, 59: 0x1F49C,
                         60: 0x1F496, 61: 0x1F499, 62: 0x1F62C, 63: 0x2728};
 
+    console.log("dataString is |", dataString, "|");
     let data_obj = JSON.parse(dataString);
+    console.log("data_obj: ", data_obj);
     let i;
     emoji_response = '';
     let emoji_num = Math.floor(Math.random() * 6);
