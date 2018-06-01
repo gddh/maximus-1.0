@@ -44,7 +44,7 @@ const processText = (sender_psid, received_message) => {
 
         return wit.message(received_message.text).then(async ({entities}) => {
             Data.createPerson(sender_psid);
-            const name      = Helper.firstEntity(entities, 'name');
+            let name      = Helper.firstEntity(entities, 'name');
             const sequence  = Helper.firstEntity(entities, 'sequence');
             const intent    = Helper.firstEntity(entities, 'intent');
             const pizza     = Helper.firstEntity(entities, 'pizza_type');
@@ -52,11 +52,13 @@ const processText = (sender_psid, received_message) => {
             const cancel    = Helper.firstEntity(entities, 'cancel');
             const greetings = Helper.firstEntity(entities, 'greetings');
             const features  = Helper.firstEntity(entities, 'features');
-            console.log("greetings is: ", greetings);
             if (intent) {
                 intent_val = Helper.firstEntity(entities, 'intent').value;
             }
             if (Data.getName(sender_psid) == null) {
+                let agenda = Helper.firstEntity(entities, 'agenda_entry');
+                if (name == null && agenda)
+                    name = agenda;
                 response = processIntro(name, sender_psid);
             } else if (pizza) {
             //if (pizza) {
@@ -155,8 +157,8 @@ const processReminder = (sequence, name, entities, datetime, sender_psid) => {
         if (interval < 0) {
             response = {"text": `I cannot remind you because the time has passed...`};
         } else {
-            if (sequence != null && (Data.getIdWithName("GDDH") == sender_psid || Data.getName(sender_psid) == name.value)) {
-            //if (sequence != null) {
+            if (sequence != null) {
+            console.log("HERE!");
                 if (Data.getIdWithName("GDDH") == sender_psid && name && name.value != 'me') {
                     repeat_info = Interval.repeatInterval(remind.value, sequence.value, interval, name.value, duration);
                     console.log("repeat info is: ", repeat_info, " name ", name.value, " target ", Data.getIdWithName(name.value));
