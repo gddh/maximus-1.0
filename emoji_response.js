@@ -4,8 +4,8 @@ function runIt(py) {
         py.stdout.on('data', function(data) {
             dataString += data.toString();
         });
-        console.log("I am getting ", dataString);
         py.stdout.on('close', function() {
+        console.log("dataString is |", dataString, "|");
             if (dataString) {
                 resolve(dataString);
             } else {
@@ -29,7 +29,6 @@ const   resolve = (dataString) => {
                         54: 0x1F61C, 55: 0x1F620, 56: 0x1F645, 57: 0x1F4AA, 58: 0x1F44A, 59: 0x1F49C,
                         60: 0x1F496, 61: 0x1F499, 62: 0x1F62C, 63: 0x2728};
 
-    console.log("dataString is |", dataString, "|");
     let data_obj = JSON.parse(dataString);
     console.log("data_obj: ", data_obj);
     let i;
@@ -59,6 +58,8 @@ const emojiReply = (data) => {
     py.stdin.end();
     return runIt(py).then(resolve, reject);
 }
+
+emojiReply("test");
 
 module.exports = {
     emojiReply : emojiReply
