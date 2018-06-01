@@ -5,6 +5,7 @@ var Process     = require('./process');
 var Handler     = require('./handler');
 var Lib         = require('./library_response');
 var Response    = require('./response');
+var Data        = require('./data');
 
 // Imports dependencies and set up http server
 const
@@ -29,12 +30,13 @@ app.post('/webhook', (req, res) => {
         let webhook_event = entry.messaging[0];
         // Get the sender PSID
         let sender_psid = webhook_event.sender.id;
-        console.log(`webhook_event : ${Object.keys(webhook_event)}`);
         // Check if the event is a message or postback and
         // pass the event to the appropriate handler function
         if (webhook_event.message && webhook_event.message.quick_reply) {
             handleQuickReply(sender_psid, webhook_event.message);
         } else if (webhook_event.message) {
+        //console.log("webhook ", webhook_event);
+        //if (webhook_event.message){
             handleMessage(sender_psid, webhook_event.message);
         } else if (webhook_event.postback) {
             handlePostback(sender_psid, webhook_event.postback);
@@ -79,10 +81,7 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
-    console.log("IN INDEX: ", Process);
     if (received_message.text) {
-        console.log(`Message is :`);
-        console.log(received_message);
         Process.processText(sender_psid, received_message);
     } else if (received_message.attachments) {
         Process.processAttachments(sender_psid, received_message);
@@ -96,16 +95,19 @@ function handleQuickReply(sender_psid, received_message) {
         response = { "text": "Awesome! Let's do it."}
     } else if (payload === 'no') {
         response = { "text": "Oh no, what is wrong? Is there any way I can help?"}
-    } else if (Process.inIdToName(sender_psid, payload.substr(1))) {
+    } else if (Data.hasTask(sender_psid, payload.substr(1))
+                || Data.hasReminder(sender_psid, payload.substr(1))) {
         let flag = payload[0];
         payload = payload.substr(1);
         if (flag == 1) {
-            Process.markAsCompleted(sender_psid, payload);
-            response = Response.getResponse('completed task1', Process.getName(sender_psid), 0);
-            console.log("response is: ", response);
+            Data.markTaskAs('completed', sender_psid, payload);
+            response = Response.getResponse('completed task1', Data.getName(sender_psid), 0);
         } else if (flag == 0) {
-            Process.clearTask(sender_psid, payload);
+            Data.clearTask(sender_psid, payload);
             response = {"text": "Understood. I have removed the task."};
+        } else if (flag == 2) {
+            Data.removeReminder(sender_psid, payload);
+            response = {"text": "Understood. I have removed the reminder."};
         }
     } else {
         let duration_response = {"text": "You've completed your challenge!!! Congrats!"};

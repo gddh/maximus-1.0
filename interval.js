@@ -35,8 +35,24 @@ const timeSpent = (d) => {
     return "You've spent " + hr.toString() + " hours " + min.toString() + " minutes " + sec.toString() + " seconds"
 }
 
+const addZero = (t) => {
+    if (t < 10) {
+        t = "0" + t;
+    }
+    return (t);
+}
+
+const getTime = (datetime) => {
+    let etime = new Date(datetime);
+    let e_hr = addZero(etime.getHours());
+    let e_min = addZero(etime.getMinutes());
+    let time =  e_hr + ":" + e_min;
+    return time;
+}
+
 module.exports = {
     calcInterval: calcInterval,
     repeatInterval: repeatInterval,
-    timeSpent: timeSpent
+    timeSpent: timeSpent,
+    getTime: getTime
 }
