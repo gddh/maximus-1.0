@@ -1,4 +1,0 @@
-dependencies:
-    - scikit-learn
-    - text-unidecode
-    - emoji
