@@ -1,4 +1,5 @@
 # This file may be used to create an environment using:
-#  $conda create --name <env> --file <this file>
+# $ conda create --name <env> --file <this file>
 # platform: osx-64
-conda install pytorch -c soumith
+_license=1.1=py35_1
+pytorch=0.2=py35_0
