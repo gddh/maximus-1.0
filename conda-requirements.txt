@@ -2,4 +2,4 @@
 # $ conda create --name <env> --file <this file>
 # platform: osx-64
 _license=1.1=py35_1
-pytorch=0.2=py35_0
+pytorch=0.3=py35_0
