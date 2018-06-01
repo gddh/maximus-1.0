@@ -1,5 +1,5 @@
 # This file may be used to create an environment using:
-# $conda create --name <env> --file <this file>
+#  $conda create --name <env> --file <this file>
 # platform: osx-64
 _license=1.1=py35_1
 _nb_ext_conf=0.3.0=py35_0
