@@ -15,17 +15,21 @@ function runIt(py) {
 }
 
 const   resolve = (dataString) => {
+    console.log("resolving... ");
     let data_obj = JSON.parse(dataString);
     let i;
     emoji_response = '';
-    let emoji_num = Math.floor(Math.random() * 6)
+    let emoji_num = Math.floor(Math.random() * 6);
+    console.log("emoji_num is ", emoji_num);
     for (i = 0; i < emoji_num; i ++) {
         emoji_response += String.fromCodePoint(emoji_dict[data_obj[i + 1]]);
     }
+    console.log("returning emoji_response ", emoji_response);
     return {"text": emoji_response};
 }
 
 const   reject = (dataString) => {
+    console.log("rejecting... ");
     console.log("dataString is : ", dataString);
 }
 
@@ -43,11 +47,13 @@ const emojiReply = (data) => {
                         60: 0x1F496, 61: 0x1F499, 62: 0x1F62C, 63: 0x2728};
     let emoji_response;
     let word_response;
+    console.log("spawning ");
     var spawn = require('child_process').spawn;
     var py = spawn('python', ['emoji/response/score_texts_emojis.py']).on('error', function(){ console.log('failed to spawn')});
     py.stdin.write(JSON.stringify(data));
+    console.log("wrote to the python script");
     py.stdin.end();
-    return runIt(py).then(resolve, );
+    return runIt(py).then(resolve, reject);
 }
 
 module.exports = {
