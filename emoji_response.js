@@ -14,6 +14,21 @@ function runIt(py) {
     });
 }
 
+const   resolve = (dataString) => {
+    let data_obj = JSON.parse(dataString);
+    let i;
+    emoji_response = '';
+    let emoji_num = Math.floor(Math.random() * 6)
+    for (i = 0; i < emoji_num; i ++) {
+        emoji_response += String.fromCodePoint(emoji_dict[data_obj[i + 1]]);
+    }
+    return {"text": emoji_response};
+}
+
+const   reject = (dataString) => {
+    console.log("dataString is : ", dataString);
+}
+
 const emojiReply = (data) => {
     var emoji_dict = {0 : 0x1F602, 1 : 0x1F612, 2 : 0x1F629, 3 : 0x1F62D, 4 : 0x1F60D, 5 : 0x1F61E,
                         6 : 0x1F44C, 7 : 0x1F60A, 8 : 0x2764 , 9 : 0x1F60F, 10: 0x1F601, 11: 0x1F3B6,
@@ -32,16 +47,7 @@ const emojiReply = (data) => {
     var py = spawn('python', ['emoji/response/score_texts_emojis.py']).on('error', function(){ console.log('failed to spawn')});
     py.stdin.write(JSON.stringify(data));
     py.stdin.end();
-    return runIt(py).then(function(dataString) { 
-        let data_obj = JSON.parse(dataString);
-        let i;
-        emoji_response = '';
-        let emoji_num = Math.floor(Math.random() * 6)
-        for (i = 0; i < emoji_num; i ++) {
-            emoji_response += String.fromCodePoint(emoji_dict[data_obj[i + 1]]);
-        }
-        return {"text": emoji_response};
-    });
+    return runIt(py).then(resolve, );
 }
 
 module.exports = {
