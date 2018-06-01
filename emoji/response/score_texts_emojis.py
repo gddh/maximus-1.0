@@ -38,7 +38,7 @@ def read_in():
 TEST_SENTENCES = read_in()
 #TEST_SENTENCES = ['I love how you never reply back..']
 
-#print('test sentences are', type(TEST_SENTENCES[0]))
+#print('test sentences are: ', TEST_SENTENCES))
 
 def top_elements(array, k):
     ind = np.argpartition(array, -k)[-k:]
