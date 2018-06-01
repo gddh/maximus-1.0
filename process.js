@@ -76,8 +76,11 @@ const processText = (sender_psid, received_message) => {
             } else if (greetings) {
                 response = Response.getResponse('greetings', name, 0);  
             } else {
+                console.log("getting emoji reply with ",received_message.text);
                 response = await Emoji.emojiReply([received_message.text]);
+                console.log("emoji reply is ", response);
                 let word_res = {"text": Response.getResponse('emoji', Data.getName(sender_psid), 0)}
+                console.log("word_res is ", word_res);
                 setTimeout(Handler.callSendAPI, 2000, sender_psid, word_res);
             }
             Handler.callSendAPI(sender_psid, response);
